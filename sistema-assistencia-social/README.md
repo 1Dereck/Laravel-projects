@@ -251,3 +251,9 @@ A versão da aplicação é exibida no rodapé da página de configurações e s
 3.  **Auditoria e Evolução:** Histórico de alterações e auditoria de ações registradas diretamente no perfil do acolhido.
 4.  **Tratamento de Mídias Sigilosas:** Arquivos e evoluções técnicas classificados como sigilosos não são enviados no payload de resposta para operadores que não possuem o nível necessário de acesso.
 5.  **Exclusão Segura:** Modal interativo de confirmação exige clique adicional para que a conta seja permanentemente eliminada pelo Diretor.
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença [MIT](LICENSE) - consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
