@@ -4,14 +4,6 @@ Repositório dedicado a centralizar meus projetos desenvolvidos com **Laravel**.
 
 Este espaço substitui parte do que antes ficava no repositório `PHP-student`, reunindo agora especificamente os projetos construídos com o framework, à medida que forem sendo desenvolvidos e organizados aqui.
 
----
-
-## 📌 Status
-
-✅ **Ativo** — Repositório em constante atualização. Contém projetos concluídos e em evolução.
-
----
-
 ## 🎯 Objetivo
 
 - Reunir em um único lugar os projetos Laravel desenvolvidos para estudo, prática e modernização de sistemas.
