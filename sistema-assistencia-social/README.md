@@ -1,6 +1,7 @@
 # 🏢 Sistema de Acolhimento — Sistema de Gestão para População em Situação de Rua
 
 [![Laravel Version](https://img.shields.io/badge/Laravel-13.17.0-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
+[![Livewire Version](https://img.shields.io/badge/Livewire-v4.3-48B0F7?logo=livewire&logoColor=white)](https://livewire.laravel.com)
 [![PHP Version](https://img.shields.io/badge/PHP-8.5.8-777BB4?logo=php&logoColor=white)](https://php.net)
 [![Tailwind CSS Version](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Pest Testing](https://img.shields.io/badge/Pest-v4-FF4081?logo=pest&logoColor=white)](https://pestphp.com)
@@ -65,6 +66,7 @@ Para garantir a sustentabilidade de longo prazo deste sistema e facilitar a manu
 | :--- | :--- | :--- | :--- |
 | **PHP** | `^8.3` | `8.5.8` | Linguagem base da aplicação. |
 | **Laravel Framework** | `^13.8` | `13.17.0` | Framework web estrutural da aplicação. |
+| **Livewire** | `^4.3` | `v4.3.3` | Framework full-stack para criação de componentes reativos dinâmicos em PHP. |
 | **Laravel Tinker** | `^3.0` | `3.0.x` | Console iterativo de comandos PHP (REPL). |
 | **MySQL** | - | `8.0+` | Banco de dados (utilizando schema legado imutável). |
 
@@ -91,6 +93,36 @@ Para garantir a sustentabilidade de longo prazo deste sistema e facilitar a manu
 | **@tailwindcss/vite** | `^4.0.0` | Plugin oficial do Tailwind CSS v4 para compilação via Vite. |
 | **Laravel Vite Plugin** | `^3.1` | Integração do Vite com o roteamento/Blade do Laravel. |
 | **Concurrently** | `^9.0.1` | Execução simultânea de comandos no ambiente de desenvolvimento. |
+
+---
+
+## ⚡ Livewire no Projeto (Versão v4.3.3)
+
+O **Livewire v4.3** é utilizado no projeto como o ecossistema oficial para o desenvolvimento de interfaces reativas e dinamismo full-stack.
+
+### 🎯 Por que utilizar o Livewire no Sistema de Acolhimento?
+
+1. **Reatividade Nativa sem JavaScript Complexo:**
+   Permite construir componentes dinâmicos (como pesquisas instantâneas, paginação assíncrona, modais de confirmação, formulários de atendimento e alternância de abas) mantendo toda a lógica declarativa de UI e estado em **PHP no backend**.
+
+2. **Agilidade no Atendimento Social:**
+   Operadores e técnicos sociais realizam atendimentos presenciais dinâmicos. O Livewire reduz o recarregamento completo da página (full page reload), proporcionando atualizações de dados instantâneas e uma experiência fluida para a equipe técnica.
+
+3. **Segurança de Dados & LGPD:**
+   Como o estado e os métodos dos componentes Livewire são processados diretamente no servidor Laravel, todas as validações, regras de mascaramento de CPF e verificações de autorização (via Gates/Policies) permanecem 100% protegidas no backend PHP, sem expor estados ou dados sensíveis no cliente/navegador.
+
+4. **Integração Fluida com Tailwind CSS v4 & Alpine.js:**
+   O Livewire v4 funciona de forma nativa com as views Blade e Alpine.js do ecossistema Laravel, eliminando a complexidade de configuração e a sobrecarga de frameworks SPA (como React ou Vue).
+
+### 🛠️ Comandos de Desenvolvimento com Livewire
+
+```bash
+# Criar um novo componente Livewire
+php artisan make:livewire NomeDoComponente
+
+# Executar a suite de testes (incluindo testes de componentes Livewire)
+php artisan test --compact
+```
 
 ---
 
