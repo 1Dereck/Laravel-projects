@@ -38,23 +38,27 @@
 
                         <div class="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 rounded-xl p-4 text-xs space-y-2">
                             <p class="font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider text-[10px]">
-                                Evento: {{ ucfirst($activity->description) }}
+                                Evento: {{ $this->formatEvent($activity->description) }}
                             </p>
 
-                            @if(!empty($activity->properties['attributes']))
-                                <div class="mt-2 space-y-1">
-                                    <span class="block text-slate-500 dark:text-slate-400 font-semibold">Valores Atualizados:</span>
-                                    <ul class="list-disc list-inside space-y-1 font-mono text-[11px] text-slate-700 dark:text-slate-300">
-                                        @foreach($activity->properties['attributes'] as $key => $val)
-                                            @if($key !== 'updated_at')
-                                                <li>
-                                                    <span class="text-slate-500 dark:text-slate-400">{{ $key }}:</span>
-                                                    <span class="text-emerald-600 dark:text-emerald-300 font-bold">{{ is_array($val) ? json_encode($val) : ($val ?? 'null') }}</span>
-                                                    @if(isset($activity->properties['old'][$key]))
-                                                        <span class="text-slate-400 dark:text-slate-500">(antes: {{ is_array($activity->properties['old'][$key]) ? json_encode($activity->properties['old'][$key]) : ($activity->properties['old'][$key] ?? 'null') }})</span>
-                                                    @endif
-                                                </li>
-                                            @endif
+                            @php
+                                $changes = $this->formatChanges($activity);
+                            @endphp
+
+                            @if(!empty($changes))
+                                <div class="mt-2 space-y-1.5">
+                                    <span class="block text-slate-500 dark:text-slate-400 font-semibold">
+                                        {{ $activity->description === 'created' ? 'Dados Cadastrados:' : 'Valores Atualizados:' }}
+                                    </span>
+                                    <ul class="space-y-1.5 text-[12px] text-slate-700 dark:text-slate-300">
+                                        @foreach($changes as $item)
+                                            <li class="flex items-center gap-1.5 flex-wrap">
+                                                <span class="text-slate-500 dark:text-slate-400 font-medium">{{ $item['label'] }}:</span>
+                                                <span class="text-emerald-600 dark:text-emerald-300 font-bold bg-emerald-500/10 px-1.5 py-0.5 rounded">{{ $item['value'] }}</span>
+                                                @if($item['has_old'] && $activity->description !== 'created')
+                                                    <span class="text-slate-400 dark:text-slate-500 text-[11px]">(antes: {{ $item['old'] }})</span>
+                                                @endif
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </div>

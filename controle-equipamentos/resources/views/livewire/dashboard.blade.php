@@ -3,23 +3,55 @@
 
     <!-- Director Trash Alert Banner -->
     @if(auth()->user()->isDiretor() && $trashedCount > 0)
-        <div class="bg-linear-to-r from-red-500/10 via-red-500/5 to-white dark:from-red-950/40 dark:via-red-900/20 dark:to-slate-900 border border-red-200 dark:border-red-500/30 rounded-2xl p-5 shadow-lg flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-red-500/15 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0 border border-red-500/30">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
+        @if(!$isTrashAlertDismissed)
+            <div x-data="{ show: true }" x-show="show" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="bg-linear-to-r from-red-500/10 via-red-500/5 to-white dark:from-red-950/40 dark:via-red-900/20 dark:to-slate-900 border border-red-200 dark:border-red-500/30 rounded-2xl p-5 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/15 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0 border border-red-500/30">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-base font-bold text-red-900 dark:text-red-200">Atenção, Diretor: Itens na Lixeira</h3>
+                            <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">Aviso Temporário</span>
+                        </div>
+                        <p class="text-xs text-red-700/80 dark:text-red-300/80 mt-0.5">Existem <span class="font-bold text-red-600 dark:text-red-400">{{ $trashedCount }}</span> registro(s) desativado(s) aguardando restauração ou expurgo definitivo.</p>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="text-base font-bold text-red-900 dark:text-red-200">Atenção, Diretor: Itens na Lixeira</h3>
-                    <p class="text-xs text-red-700/80 dark:text-red-300/80 mt-0.5">Existem <span class="font-bold text-red-600 dark:text-red-400">{{ $trashedCount }}</span> registro(s) desativado(s) aguardando restauração ou expurgo definitivo.</p>
+                <div class="flex items-center gap-2.5 shrink-0 w-full sm:w-auto justify-end">
+                    <a href="{{ route('lixeira.index') }}" class="px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-slate-950 font-bold text-xs transition-colors shadow-md">
+                        Acessar Lixeira
+                    </a>
+                    <button wire:click="dismissTrashAlert" @click="show = false" type="button" class="px-3 py-2.5 rounded-xl border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 hover:bg-red-500/10 transition-colors flex items-center gap-1.5 text-xs font-semibold" title="Ocultar este aviso temporariamente">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <span>Ocultar</span>
+                    </button>
                 </div>
             </div>
-            <a href="{{ route('lixeira.index') }}" class="px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-slate-950 font-bold text-xs transition-colors shadow-md shrink-0">
-                Acessar Lixeira
-            </a>
-        </div>
+        @else
+            <div class="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 shadow-xs">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Aviso da Lixeira ocultado temporariamente (<strong class="text-slate-800 dark:text-slate-200 font-bold">{{ $trashedCount }}</strong> item(ns) mantido(s) por precaução).</span>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                    <button wire:click="showTrashAlert" type="button" class="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 underline font-medium cursor-pointer">
+                        Reexibir aviso
+                    </button>
+                    <span class="text-slate-300 dark:text-slate-700">•</span>
+                    <a href="{{ route('lixeira.index') }}" class="font-semibold text-red-600 dark:text-red-400 hover:underline">
+                        Ver Lixeira
+                    </a>
+                </div>
+            </div>
+        @endif
     @endif
+
 
     <!-- Metric Cards Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -188,13 +220,11 @@
                         </div>
                         <div>
                             <span class="font-semibold text-slate-800 dark:text-slate-200">{{ $act->causer ? $act->causer->name : 'Sistema' }}</span>
-                            <span class="text-slate-500 dark:text-slate-400"> realizou </span>
-                            <span class="font-bold text-emerald-600 dark:text-emerald-400 uppercase text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
-                                {{ $act->description }}
+                            <span class="font-bold uppercase text-[10px] px-1.5 py-0.5 rounded border mx-1 {{ $this->getEventBadgeClass($act->description) }}">
+                                {{ $this->formatEvent($act->description) }}
                             </span>
-                            <span class="text-slate-500 dark:text-slate-400"> em </span>
                             <span class="font-medium text-slate-700 dark:text-slate-300">
-                                {{ class_basename($act->subject_type) }} #{{ $act->subject_id }}
+                                {{ $this->formatSubject($act) }}
                             </span>
                         </div>
                     </div>

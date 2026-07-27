@@ -68,8 +68,8 @@
                                     <span class="text-slate-400 dark:text-slate-500 italic">Avulso no Setor</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex flex-wrap items-center justify-end gap-2.5">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-2.5">
                                     <button wire:click="verHistorico({{ $per->id }})" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold transition cursor-pointer">
                                         Histórico
                                     </button>
@@ -119,7 +119,7 @@
                         <span class="text-xs text-slate-500 dark:text-slate-400">
                             PC Vinculado: <strong class="text-slate-700 dark:text-slate-300 font-mono">{{ $per->equipamento ? $per->equipamento->serial : 'Nenhum' }}</strong>
                         </span>
-                        <div class="flex flex-wrap items-center gap-2.5">
+                        <div class="flex items-center gap-2.5 shrink-0">
                             <button wire:click="verHistorico({{ $per->id }})" class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold">
                                 Histórico
                             </button>

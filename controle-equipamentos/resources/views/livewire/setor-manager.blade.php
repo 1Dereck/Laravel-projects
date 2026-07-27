@@ -61,8 +61,8 @@
                                     {{ $setor->perifericos_count }} item(ns)
                                 </span>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex flex-wrap items-center justify-end gap-2.5">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-2.5">
                                     <button wire:click="verHistorico({{ $setor->id }})" title="Linha do Tempo" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold transition cursor-pointer">
                                         Histórico
                                     </button>
@@ -138,12 +138,6 @@
                 <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">
                     {{ $setorId ? 'Editar Setor' : 'Novo Setor / Secretaria' }}
                 </h3>
-                <button type="button" wire:click="$set('showModal', false)" title="Fechar formulário" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 bg-slate-200/80 hover:bg-slate-300/80 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300/60 dark:border-slate-700 transition cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    <span>Sair</span>
-                </button>
             </div>
 
             <form wire:submit="salvar" class="space-y-4">

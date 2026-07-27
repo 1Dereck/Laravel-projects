@@ -9,14 +9,74 @@ use App\Models\Setor;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 use Spatie\Activitylog\Models\Activity;
 
 #[Layout('components.layouts.app')]
-#[Title('Dashboard Gerencial')]
 class Dashboard extends Component
 {
+    public function dismissTrashAlert(): void
+    {
+        session()->put('hide_trash_alert', true);
+    }
+
+    public function showTrashAlert(): void
+    {
+        session()->forget('hide_trash_alert');
+    }
+
+    public function formatEvent(string $event): string
+    {
+        return match (strtolower($event)) {
+            'created' => 'Cadastrou',
+            'updated' => 'Atualizou',
+            'deleted' => 'Excluiu',
+            'restored' => 'Restaurou',
+            'expunged' => 'Expurgou',
+            default => ucfirst($event),
+        };
+    }
+
+    public function getEventBadgeClass(string $event): string
+    {
+        return match (strtolower($event)) {
+            'created' => 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
+            'updated' => 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
+            'deleted', 'expunged' => 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
+            'restored' => 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20',
+            default => 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20',
+        };
+    }
+
+    public function formatSubject(Activity $activity): string
+    {
+        $type = class_basename($activity->subject_type);
+        $typeName = match ($type) {
+            'Equipamento' => 'Computador',
+            'Periferico' => 'Periférico',
+            'Monitor' => 'Monitor',
+            'Setor' => 'Setor',
+            'User' => 'Usuário',
+            default => $type,
+        };
+
+        $subject = $activity->subject;
+        if (! $subject) {
+            return "{$typeName} #{$activity->subject_id}";
+        }
+
+        $detail = match ($type) {
+            'Equipamento' => $subject->serial ?? null,
+            'Periferico' => $subject->tipo ?? $subject->serial_patrimonio ?? null,
+            'Monitor' => isset($subject->serial) ? "SN: {$subject->serial}" : null,
+            'Setor' => $subject->nome ?? null,
+            'User' => $subject->name ?? null,
+            default => null,
+        };
+
+        return $detail ? "{$typeName} ({$detail})" : "{$typeName} #{$activity->subject_id}";
+    }
+
     public function render()
     {
         $totalEquipamentos = Equipamento::query()->count();
@@ -61,6 +121,7 @@ class Dashboard extends Component
             'totalSetores' => $totalSetores,
             'recentActivities' => $recentActivities,
             'trashedCount' => $trashedCount,
+            'isTrashAlertDismissed' => session()->get('hide_trash_alert', false),
             'topSetores' => $topSetores,
         ]);
     }

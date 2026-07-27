@@ -7,8 +7,8 @@
     <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-xl">
         <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-1">
             <div class="relative flex-1">
-                <input wire:model.live.debounce.300ms="search" type="text" 
-                       placeholder="Buscar por serial, marca ou responsável..." 
+                <input wire:model.live.debounce.300ms="search" type="text"
+                       placeholder="Buscar por serial, marca ou responsável..."
                        class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 text-sm placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500">
                 <svg class="w-5 h-5 text-slate-400 dark:text-slate-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -110,7 +110,7 @@
                                         Editar
                                     </button>
                                     @if(auth()->user()->isDiretor())
-                                        <button wire:click="excluirEquipamento({{ $eq->id }})" 
+                                        <button wire:click="excluirEquipamento({{ $eq->id }})"
                                                 wire:confirm="Mover este equipamento para a Lixeira?"
                                                 class="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 text-xs font-semibold transition border border-red-500/20 cursor-pointer">
                                             Excluir
@@ -172,7 +172,7 @@
                                 Editar
                             </button>
                             @if(auth()->user()->isDiretor())
-                                <button wire:click="excluirEquipamento({{ $eq->id }})" 
+                                <button wire:click="excluirEquipamento({{ $eq->id }})"
                                         wire:confirm="Excluir equipamento?"
                                         class="px-2.5 py-1 rounded bg-red-500/10 text-red-600 dark:text-red-400 text-xs font-semibold border border-red-500/20">
                                     Excluir
@@ -308,7 +308,7 @@
 
                 <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                     <button type="button" wire:click="$set('showModal', false)" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm cursor-pointer">
-                        Sair / Cancelar
+                        Cancelar
                     </button>
                     <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20">
                         {{ $equipamentoId ? 'Atualizar Equipamento' : 'Salvar Equipamento' }}

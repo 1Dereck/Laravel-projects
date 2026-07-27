@@ -114,6 +114,71 @@
         </div>
     </div>
 
+    <!-- Password Change Card -->
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+        <div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                Alterar Minha Senha
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                Atualize sua senha de acesso ao sistema com segurança.
+            </p>
+        </div>
+
+        @if(session()->has('password_success'))
+            <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-sm font-semibold flex items-center gap-3">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                {{ session('password_success') }}
+            </div>
+        @endif
+
+        <form wire:submit="alterarSenha" class="max-w-xl space-y-4">
+            <div>
+                <label for="current_password" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                    Senha Atual *
+                </label>
+                <input wire:model="current_password" id="current_password" type="password" placeholder="Digite sua senha atual"
+                       class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
+                @error('current_password')
+                    <span class="text-xs text-red-500 dark:text-red-400 block mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="new_password" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                        Nova Senha *
+                    </label>
+                    <input wire:model="new_password" id="new_password" type="password" placeholder="Mínimo 6 caracteres"
+                           class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
+                    @error('new_password')
+                        <span class="text-xs text-red-500 dark:text-red-400 block mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="new_password_confirmation" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                        Confirmar Nova Senha *
+                    </label>
+                    <input wire:model="new_password_confirmation" id="new_password_confirmation" type="password" placeholder="Repita a nova senha"
+                           class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-start">
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 font-bold text-slate-950 text-sm transition shadow-lg shadow-emerald-500/20 flex items-center gap-2 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    Atualizar Senha
+                </button>
+            </div>
+        </form>
+    </div>
+
     <!-- Settings Page Footer: Versão do Sistema -->
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
