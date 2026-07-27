@@ -122,7 +122,7 @@
             </svg>
             <span class="font-semibold text-slate-800 dark:text-slate-200">Versão Oficial do Sistema:</span>
             <span class="font-mono px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold border border-slate-300 dark:border-slate-700 text-xs">
-                {{ config('app.version', 'v1.0.0') }}
+                {{ config('app.version', 'v1.0.1') }}
             </span>
         </div>
         <div class="text-xs text-slate-400">

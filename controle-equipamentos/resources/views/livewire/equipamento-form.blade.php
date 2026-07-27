@@ -101,8 +101,8 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex flex-wrap items-center justify-end gap-2.5">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-2.5">
                                     <button wire:click="verHistorico({{ $eq->id }})" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold transition cursor-pointer">
                                         Histórico
                                     </button>
@@ -164,7 +164,7 @@
 
                     <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-800">
                         <span class="text-xs text-slate-500 dark:text-slate-400">Kit Locado: <strong class="{{ $eq->kit_teclado_mouse_locado ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500' }}">{{ $eq->kit_teclado_mouse_locado ? 'Sim' : 'Não' }}</strong></span>
-                        <div class="flex flex-wrap items-center gap-2.5">
+                        <div class="flex items-center gap-2.5 shrink-0">
                             <button wire:click="verHistorico({{ $eq->id }})" class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold">
                                 Histórico
                             </button>
@@ -202,12 +202,6 @@
                 <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">
                     {{ $equipamentoId ? 'Editar Equipamento' : 'Cadastrar Novo Equipamento' }}
                 </h3>
-                <button type="button" wire:click="$set('showModal', false)" title="Fechar formulário" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 bg-slate-200/80 hover:bg-slate-300/80 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300/60 dark:border-slate-700 transition cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    <span>Sair</span>
-                </button>
             </div>
 
             <!-- Modal Body -->

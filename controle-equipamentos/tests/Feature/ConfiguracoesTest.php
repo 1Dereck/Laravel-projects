@@ -18,7 +18,7 @@ test('authenticated users can render settings page', function () {
         ->assertSee('Configurações do Sistema')
         ->assertSee('Modo Claro')
         ->assertSee('Modo Escuro')
-        ->assertSee(config('app.version', 'v1.0.0'));
+        ->assertSee(config('app.version', 'v1.0.1'));
 });
 
 test('configuracoes livewire component can be tested directly', function () {

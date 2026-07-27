@@ -103,7 +103,7 @@
     <div class="header">
         <h1>SISTEMA DE INVENTÁRIO TI</h1>
         <h2>Relatório de Inventário Técnico: {{ $setor->nome }}</h2>
-        <p>Gerado em: {{ $dataGeracao }} | Versão do Sistema: {{ config('app.version', 'v1.0.0') }}</p>
+        <p>Gerado em: {{ $dataGeracao }}</p>
     </div>
 
     <!-- Seção: Computadores e Monitores -->

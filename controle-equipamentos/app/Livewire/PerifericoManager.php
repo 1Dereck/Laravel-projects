@@ -145,7 +145,9 @@ class PerifericoManager extends Component
         return view('livewire.periferico-manager', [
             'perifericos' => $perifericos,
             'setores' => $setores,
+            'setoresList' => $setores,
             'equipamentos' => $equipamentos,
+            'equipamentosList' => $equipamentos,
         ]);
     }
 }

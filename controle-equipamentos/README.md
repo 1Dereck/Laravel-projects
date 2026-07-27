@@ -329,7 +329,7 @@ O versionamento da aplicação segue o padrão de **Semantic Versioning (SemVer)
 1. ### **Localização da Versão no Código**
    A versão atual é configurada no arquivo de ambiente `.env`:
    ```env
-   APP_VERSION=v1.0.0
+   APP_VERSION=v1.0.1
    ```
    A variável é carregada nativamente pelo Laravel em `config/app.php` e injetada no rodapé da página de configurações (`Configuracoes.php`):
    ```html
