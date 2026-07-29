@@ -184,8 +184,7 @@
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Patrimônio ou Serial (Opcional)</label>
-                    <input wire:model="serial_patrimonio" type="text" placeholder="ex: PAT-2026-99 ou SN12345"
-                           class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
+                    <x-input-ocr wire:model="serial_patrimonio" wire-model="serial_patrimonio" placeholder="ex: PAT-2026-99 ou SN12345" />
                     @error('serial_patrimonio') <span class="text-xs text-red-500 dark:text-red-400 block mt-1">{{ $message }}</span> @enderror
                 </div>
 

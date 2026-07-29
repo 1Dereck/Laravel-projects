@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Setor;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -25,6 +26,9 @@ class SetorManager extends Component
 
     public string $nome = '';
 
+    /**
+     * @return array<string, array<int, string>>
+     */
     protected function rules(): array
     {
         return [
@@ -90,7 +94,7 @@ class SetorManager extends Component
         $this->dispatch('abrir-historico', modelType: Setor::class, modelId: $id, title: 'Histórico do Setor');
     }
 
-    public function render()
+    public function render(): View
     {
         $setores = Setor::query()
             ->withCount(['equipamentos', 'perifericos'])

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Equipamento;
 use App\Models\Periferico;
 use App\Models\Setor;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -38,6 +39,9 @@ class PerifericoManager extends Component
 
     public ?string $observacoes = '';
 
+    /**
+     * @return array<string, array<int, string>>
+     */
     protected function rules(): array
     {
         return [
@@ -124,7 +128,7 @@ class PerifericoManager extends Component
         $this->dispatch('abrir-historico', modelType: Periferico::class, modelId: $id, title: 'Histórico do Periférico');
     }
 
-    public function render()
+    public function render(): View
     {
         $perifericos = Periferico::query()
             ->with(['setor', 'equipamento', 'creator'])

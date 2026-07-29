@@ -6,6 +6,7 @@ use App\Models\Equipamento;
 use App\Models\Monitor;
 use App\Models\Periferico;
 use App\Models\Setor;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -76,7 +77,7 @@ class LixeiraManager extends Component
         session()->flash('message', 'Registro excluído permanentemente do banco de dados.');
     }
 
-    public function render()
+    public function render(): View
     {
         $trashedSetores = Setor::onlyTrashed()->latest('deleted_at')->get();
         $trashedEquipamentos = Equipamento::onlyTrashed()->with(['setor', 'monitores'])->latest('deleted_at')->get();

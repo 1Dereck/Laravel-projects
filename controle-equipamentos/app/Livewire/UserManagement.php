@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
@@ -34,6 +35,9 @@ class UserManagement extends Component
         }
     }
 
+    /**
+     * @return array<string, array<int, string>>
+     */
     protected function rules(): array
     {
         return [
@@ -106,7 +110,7 @@ class UserManagement extends Component
         session()->flash('message', 'Conta de usuário desativada com sucesso.');
     }
 
-    public function render()
+    public function render(): View
     {
         $users = User::latest()->get();
 

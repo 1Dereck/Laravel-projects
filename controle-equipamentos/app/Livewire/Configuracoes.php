@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -42,7 +43,7 @@ class Configuracoes extends Component
         session()->flash('password_success', 'Sua senha foi alterada com sucesso!');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.configuracoes');
     }

@@ -61,6 +61,14 @@ O **Sistema de Inventário TI** é uma solução web reativa corporativa desenvo
     - Interface restrita ao Diretor para criação de novos operadores de TI, alteração de senhas com algoritmo de hash seguro e atribuição dos perfis `diretor` ou `administrador`.
     - Inativação segura de contas de usuários através de *Soft Delete*.
 
+11. ### **Leitura Híbrida de Código por OCR por Câmera (`input-ocr`)**
+    - Funcionalidade de captura visual para auto-preenchimento instantâneo de números de série e patrimônio de equipamentos, monitores e periféricos.
+    - **Câmera 1 (Processamento em Servidor / PHP Tesseract)**: Envia a imagem comprimida para a API Laravel (`/api/ocr/read-serial`) com processamento via engine local Tesseract no PHP.
+    - **Câmera 2 (Processamento 100% no Navegador / Tesseract.js)**: Leitura OCR executada no lado do cliente (*Client-side*) com a biblioteca `Tesseract.js` (v5), eliminando chamadas de rede e reduzindo o consumo de recursos do servidor.
+    - **Filtro Inteligente Anti-Ruído de Código de Barras (`extractCleanSerial`)**: Algoritmo presente no PHP e JavaScript que identifica e ignora ruídos visuais de linhas de códigos de barras (sequências repetidas de `1`s), isolando e priorizando a leitura correta do número de série ou patrimônio impresso na etiqueta.
+    - **Compressão Canvas HTML5**: Fotos capturadas pelas câmeras de dispositivos móveis (~5MB) são redimensionadas no navegador para ~200KB antes da análise, garantindo velocidade máxima.
+    - **Total Editabilidade Manual**: Mantém o campo de texto completamente editável para validação ou ajustes manuais pelo técnico de TI.
+
 ---
 
 ## 💻 Stack Tecnológica & Versões
@@ -75,6 +83,7 @@ O **Sistema de Inventário TI** é uma solução web reativa corporativa desenvo
 | **livewire/blaze** | `^1.0` | Otimizador de renderização e cache de componentes Blade do Livewire |
 | **spatie/laravel-activitylog** | `^5.0` | Auditoria automática de mutations em models para conformidade e rastreabilidade |
 | **barryvdh/laravel-dompdf** | `^3.1` | Gerador e renderizador de relatórios em formato PDF para impressão |
+| **thiagoalessio/tesseract_ocr** | `^2.13` | Wrapper PHP para integração com o engine Tesseract OCR, utilizado para reconhecimento óptico de caracteres e extração de texto a partir de imagens ou etiquetas de patrimônio |
 | **laravel/tinker** | `^3.0` | Console REPL para interações em tempo real com o ambiente da aplicação |
 
 ### Ecossistema de Desenvolvimento & Linter
@@ -105,6 +114,7 @@ O **Sistema de Inventário TI** é uma solução web reativa corporativa desenvo
 | :--- | :---: | :--- |
 | **tailwindcss** | `^4.0.7` | Framework CSS utilitário com Design System institucional em Slate/Emerald |
 | **@tailwindcss/vite** | `^4.1.11` | Plugin oficial de integração do Tailwind CSS v4 com a pipeline Vite |
+| **tesseract.js** | `v5.x` | Engine de OCR 100% no navegador (Client-side) utilizado pela Câmera 2 |
 | **vite** | `^8.0.0` | Bundler e servidor de desenvolvimento ultra-rápido para assets front-end |
 | **laravel-vite-plugin** | `^3.1` | Integração do Vite com o sistema de views Blade e rotas do Laravel |
 | **concurrently** | `^9.0.1` | Execução em paralelo dos processos de servidor PHP, fila e Vite em terminal único |
@@ -154,12 +164,13 @@ cd controle-equipamentos
 
 ### 2. Instalar Dependências do PHP e Node.js
 ```bash
-# Instala as dependências gerenciadas pelo Composer
+# Instala as dependências gerenciadas pelo Composer (incluindo thiagoalessio/tesseract_ocr)
 composer install
 
 # Instala os pacotes de front-end gerenciados pelo NPM
 npm install
 ```
+> **Nota sobre o Tesseract OCR (`thiagoalessio/tesseract_ocr`)**: O pacote atua como wrapper PHP e requer o binário do [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) (versão 3.02 ou superior) instalado no sistema operacional do servidor/ambiente para realizar o reconhecimento de texto de imagens.
 
 ### 3. Configurar Variáveis de Ambiente
 ```bash

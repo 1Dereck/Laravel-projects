@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Equipamento;
 use App\Models\Setor;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Activitylog\Models\Activity;
@@ -18,6 +19,7 @@ class HistoricoModal extends Component
 
     public string $title = 'Linha do Tempo de Alterações';
 
+    /** @var mixed */
     public $activities = [];
 
     #[On('abrir-historico')]
@@ -57,6 +59,9 @@ class HistoricoModal extends Component
         };
     }
 
+    /**
+     * @return array<int, array{label: string, value: string, old: string|null, has_old: bool}>
+     */
     public function formatChanges(Activity $activity): array
     {
         $attributes = $activity->properties['attributes'] ?? $activity->attribute_changes['attributes'] ?? $activity->changes['attributes'] ?? [];
@@ -82,6 +87,7 @@ class HistoricoModal extends Component
         ];
 
         $formatted = [];
+        /** @var array<int, string> $setoresMap */
         $setoresMap = Setor::pluck('nome', 'id')->toArray();
 
         foreach ($attributes as $key => $value) {
@@ -89,10 +95,10 @@ class HistoricoModal extends Component
                 continue;
             }
 
-            $label = $labels[$key] ?? ucfirst(str_replace('_', ' ', $key));
+            $label = $labels[$key] ?? ucfirst(str_replace('_', ' ', (string) $key));
 
-            $valFormatted = $this->formatSingleValue($key, $value, $setoresMap);
-            $oldFormatted = array_key_exists($key, $old) ? $this->formatSingleValue($key, $old[$key], $setoresMap) : null;
+            $valFormatted = $this->formatSingleValue((string) $key, $value, $setoresMap);
+            $oldFormatted = array_key_exists($key, $old) ? $this->formatSingleValue((string) $key, $old[$key], $setoresMap) : null;
 
             $formatted[] = [
                 'label' => $label,
@@ -105,6 +111,9 @@ class HistoricoModal extends Component
         return $formatted;
     }
 
+    /**
+     * @param  array<int, string>  $setoresMap
+     */
     private function formatSingleValue(string $key, mixed $value, array $setoresMap): string
     {
         if (is_bool($value) || $key === 'kit_teclado_mouse_locado') {
@@ -116,13 +125,14 @@ class HistoricoModal extends Component
         }
 
         if ($key === 'equipamento_id' && ! empty($value)) {
+            /** @var Equipamento|null $equipamento */
             $equipamento = Equipamento::find($value);
 
             return $equipamento ? "{$equipamento->marca_modelo} ({$equipamento->serial})" : "Equipamento #{$value}";
         }
 
         if (is_array($value)) {
-            return json_encode($value, JSON_UNESCAPED_UNICODE);
+            return json_encode($value, JSON_UNESCAPED_UNICODE) ?: '';
         }
 
         if ($value === null || $value === '') {
@@ -141,7 +151,7 @@ class HistoricoModal extends Component
         $this->showModal = false;
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.historico-modal');
     }

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Setor;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -22,7 +23,7 @@ class BuscaSetor extends Component
         $this->selectedSetorId = $id;
     }
 
-    public function render()
+    public function render(): View
     {
         $setores = Setor::query()
             ->withCount(['equipamentos', 'perifericos'])

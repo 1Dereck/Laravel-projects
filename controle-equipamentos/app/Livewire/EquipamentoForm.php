@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Equipamento;
 use App\Models\Monitor;
 use App\Models\Setor;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
@@ -41,9 +42,12 @@ class EquipamentoForm extends Component
 
     public ?string $responsavel_levantamento = '';
 
-    // Array dinâmico para monitores: [['id' => null, 'numero' => 1, 'serial' => '']]
+    /** @var array<int, array{id: int|null, numero: int, serial: string}> */
     public array $monitores = [];
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function rules(): array
     {
         return [
@@ -58,6 +62,9 @@ class EquipamentoForm extends Component
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function messages(): array
     {
         return [
@@ -209,7 +216,7 @@ class EquipamentoForm extends Component
         $this->dispatch('abrir-historico', modelType: Equipamento::class, modelId: $id, title: 'Histórico do Equipamento');
     }
 
-    public function render()
+    public function render(): View
     {
         $equipamentos = Equipamento::query()
             ->with(['setor', 'monitores', 'creator'])

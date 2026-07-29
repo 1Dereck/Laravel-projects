@@ -7,6 +7,7 @@ use App\Models\Monitor;
 use App\Models\Periferico;
 use App\Models\Setor;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -77,7 +78,7 @@ class Dashboard extends Component
         return $detail ? "{$typeName} ({$detail})" : "{$typeName} #{$activity->subject_id}";
     }
 
-    public function render()
+    public function render(): View
     {
         $totalEquipamentos = Equipamento::query()->count();
         $totalDesktops = Equipamento::query()->where('tipo', 'desktop')->count();

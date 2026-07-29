@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OcrController;
 use App\Http\Controllers\PdfController;
 use App\Livewire\Auth\Login;
 use App\Livewire\BuscaSetor;
@@ -37,6 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/relatorios', BuscaSetor::class)->name('relatorios.index');
     Route::get('/relatorios/setor/{setor}/pdf', [PdfController::class, 'gerarRelatorioSetor'])->name('relatorios.pdf');
     Route::get('/configuracoes', Configuracoes::class)->name('configuracoes.index');
+
+    // Rota API de Leitura OCR para Números de Série
+    Route::post('/api/ocr/read-serial', [OcrController::class, 'readSerial'])->name('api.ocr.read-serial');
 
     // Director Exclusive Routes
     Route::middleware('role:diretor')->group(function () {
