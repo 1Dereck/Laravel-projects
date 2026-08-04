@@ -1,0 +1,60 @@
+<?php
+
+use App\Models\User;
+use Livewire\Livewire;
+
+test('login page can be rendered', function () {
+    $response = $this->get('/login');
+
+    $response->assertStatus(200);
+});
+
+test('users can authenticate using login component', function () {
+    $user = User::factory()->create([
+        'username' => 'testuser',
+        'password' => bcrypt('password123'),
+    ]);
+
+    Livewire::test('auth.login')
+        ->set('username', $user->username)
+        ->set('password', 'password123')
+        ->call('login')
+        ->assertRedirect(route('dashboard', absolute: false));
+
+    $this->assertAuthenticatedAs($user);
+});
+
+test('authenticated users can access dashboard', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/dashboard')
+        ->assertStatus(200);
+});
+
+test('unauthenticated users are redirected to login', function () {
+    $this->get('/dashboard')
+        ->assertRedirect('/login');
+});
+
+test('validation error messages are in portuguese when credentials are empty', function () {
+    Livewire::test('auth.login')
+        ->set('username', '')
+        ->set('password', '')
+        ->call('login')
+        ->assertHasErrors([
+            'username' => 'required',
+            'password' => 'required',
+        ])
+        ->assertSee('O campo usuário é obrigatório.')
+        ->assertSee('O campo senha é obrigatório.');
+});
+
+test('invalid credentials show error message', function () {
+    Livewire::test('auth.login')
+        ->set('username', 'usuario_invalido')
+        ->set('password', 'senhaincorreta')
+        ->call('login')
+        ->assertHasErrors(['username' => 'Usuário ou senha incorretos'])
+        ->assertSee('Usuário ou senha incorretos');
+});
