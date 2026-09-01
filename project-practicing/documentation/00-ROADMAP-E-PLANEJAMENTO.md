@@ -44,15 +44,15 @@ A pasta `documentation/` está organizada nos seguintes guias modulares:
 
 | Arquivo | Conteúdo Principal |
 | :--- | :--- |
-| [`00-ROADMAP-E-PLANEJAMENTO.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/00-ROADMAP-E-PLANEJAMENTO.md) | Visão geral, mentalidade de aprendizado e cronograma. |
-| [`01-PHP-ENUMS-NO-LARAVEL.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/01-PHP-ENUMS-NO-LARAVEL.md) | Enums do PHP 8.1+, Backed Enums, Casts em Models, métodos e validação. |
-| [`02-CASTS-AVANCADOS-ELOQUENT.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/02-CASTS-AVANCADOS-ELOQUENT.md) | Novo método `casts()`, JSON casts (`AsArrayObject`), encriptação e Custom Casts. |
-| [`03-AUTORIZACAO-GATES-E-POLICIES.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/03-AUTORIZACAO-GATES-E-POLICIES.md) | Gates vs Policies, regras contextuais, `@can`, autorização no Livewire. |
-| [`04-ARQUITETURA-MODERNA-LARAVEL.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/04-ARQUITETURA-MODERNA-LARAVEL.md) | Form Requests, Single Action Controllers, Action Classes, Scopes e Observers. |
-| [`05-LIVEWIRE-DO-ZERO-AO-AVANCADO.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/05-LIVEWIRE-DO-ZERO-AO-AVANCADO.md) | Ciclo de vida, Two-Way Binding, Ações, Validação em Tempo Real e Eventos. |
-| [`06-PROJETO-PRATICO-PASSO-A-PASSO.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/06-PROJETO-PRATICO-PASSO-A-PASSO.md) | Guia prático passo a passo de desenvolvimento guiado do projeto TaskForge. |
-| [`07-PEST-PHP-TESTES-MODERNOS.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/07-PEST-PHP-TESTES-MODERNOS.md) | Testes modernos com Pest PHP a cada etapa (TDD e testes contínuos). |
-| [`08-PADROES-E-BOAS-PRATICAS.md`](file:///C:/1Projetos-GitHub-Desktop/Aprendizado/project-practicing/documentation/08-PADROES-E-BOAS-PRATICAS.md) | Guia definitivo de quando usar cada recurso (Obrigatórios vs Sob Demanda). |
+| [`00-ROADMAP-E-PLANEJAMENTO.md`](./00-ROADMAP-E-PLANEJAMENTO.md) | Visão geral, mentalidade de aprendizado e cronograma. |
+| [`01-PHP-ENUMS-NO-LARAVEL.md`](./01-PHP-ENUMS-NO-LARAVEL.md) | Enums do PHP 8.1+, Backed Enums, Casts em Models, métodos e validação. |
+| [`02-CASTS-AVANCADOS-ELOQUENT.md`](./02-CASTS-AVANCADOS-ELOQUENT.md) | Novo método `casts()`, JSON casts (`AsArrayObject`), encriptação e Custom Casts. |
+| [`03-AUTORIZACAO-GATES-E-POLICIES.md`](./03-AUTORIZACAO-GATES-E-POLICIES.md) | Gates vs Policies, regras contextuais, `@can`, autorização no Livewire. |
+| [`04-ARQUITETURA-MODERNA-LARAVEL.md`](./04-ARQUITETURA-MODERNA-LARAVEL.md) | Form Requests, Single Action Controllers, Action Classes, Scopes e Observers. |
+| [`05-LIVEWIRE-DO-ZERO-AO-AVANCADO.md`](./05-LIVEWIRE-DO-ZERO-AO-AVANCADO.md) | Ciclo de vida, Two-Way Binding, Ações, Validação em Tempo Real e Eventos. |
+| [`06-PROJETO-PRATICO-PASSO-A-PASSO.md`](./06-PROJETO-PRATICO-PASSO-A-PASSO.md) | Guia prático passo a passo de desenvolvimento guiado do projeto TaskForge. |
+| [`07-PEST-PHP-TESTES-MODERNOS.md`](./07-PEST-PHP-TESTES-MODERNOS.md) | Testes modernos com Pest PHP a cada etapa (TDD e testes contínuos). |
+| [`08-PADROES-E-BOAS-PRATICAS.md`](./08-PADROES-E-BOAS-PRATICAS.md) | Guia definitivo de quando usar cada recurso (Obrigatórios vs Sob Demanda). |
 
 ---
 
