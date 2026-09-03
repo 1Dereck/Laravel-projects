@@ -97,6 +97,7 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Use TitleCase for Enum keys: `FavoritePerson`, `BestLake`, `Monthly`.
 - Prefer PHPDoc blocks over inline comments. Only add inline comments for exceptionally complex logic.
 - Use array shape type definitions in PHPDoc blocks.
+- **PHPStan / Larastan Level 7:** Code must pass PHPStan analysis at level 7 without errors. Use strict typing, explicit return types, and proper generic annotations (e.g. `/** @use HasFactory<UserFactory> */`).
 
 === deployments rules ===
 
@@ -113,6 +114,28 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Test the changed behavior and its important failure modes, but do not add tests beyond them.
 - Read the `testing-best-practices` skill before writing tests.
 
+## Testing Strategy: Strict TDD vs Test-After
+
+Follow this strict distinction between what must be developed with TDD versus Test-After:
+
+### 1. Strict TDD (Red-Green-Refactor) — Backend & Security
+Apply TDD strictly before implementing any code in the following layers:
+- **Routes & Controllers (Feature Tests):** Write the feature test first defining expected HTTP status codes (200, 201, 403, 422, redirects), response payloads, and database side-effects before writing the route or controller logic.
+- **Policies & Authorization:** Write tests covering both authorized and unauthorized scenarios (403 Forbidden) before writing policy methods. Never implement authorization rules without a failing test first.
+- **Actions, Services & Jobs:** Write unit/feature tests specifying inputs, expected outputs, business rules, and mocked external boundaries before coding the class.
+- **Form Requests & Validation:** Test validation passes and failures before writing the request rules.
+- **Enums:** Backed Enums guarantee typed contracts between backend and frontend. Test custom enum methods, casts, and validation rules before or alongside their usage.
+- **Database & Migrations:** Driven indirectly by tests. When writing feature or model tests, database assertions fail first because the table or column does not exist; create migrations to satisfy the failing test.
+
+### 2. Test-After — Frontend & Interactive UI
+Use Test-After for presentation layers to allow rapid UI/UX exploration and visual feedback without brittle test churn:
+- **Livewire Components & Flux UI:** Build and adjust the visual layout, Blade structure, and interactive flow first. Immediately after the UI stabilizes, write the Livewire interaction test covering:
+  - Form validation rules and error messages.
+  - Method calls (`wire:click`, `call()`) and state transitions.
+  - Emitted events, authorization within components, and database mutations.
+- **Blade Views & CSS/Tailwind:** Do not write automated tests for pure styling, markup layout, or CSS classes. Test only critical conditional logic (such as `@can` / `@cannot` directives) through feature/endpoint tests.
+
+
 === laravel/core rules ===
 
 # Do Things the Laravel Way
@@ -121,9 +144,23 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - If you're creating a generic PHP class, use `php artisan make:class`.
 - Pass `--no-interaction` to all Artisan commands to ensure they work without user input. You should also pass the correct `--options` to ensure correct behavior.
 
-### Model Creation
+### Eloquent Models & Modern Laravel
 
 - When creating new models, create useful factories and seeders for them too. Ask the user if they need any other things, using `php artisan make:model --help` to check the available options.
+- **Method-based Casts:** Always use `protected function casts(): array` instead of the legacy `protected $casts = [];` property.
+- **PHP 8 Model Attributes:** Prefer PHP 8 attributes (`#[Fillable([...])]`, `#[Hidden([...])]`) as used throughout the application.
+
+### IDE Helper Files (`_ide_helper.php`, `_ide_helper_models.php`, `.phpstorm.meta.php`)
+
+- **NEVER write `@property` or `@method` docblocks directly into model classes in `app/Models/`.** Keep model source files clean and readable.
+- Model helper annotations must strictly live in `_ide_helper_models.php` (generated via `php artisan ide-helper:models --nowrite`).
+- Meta and facade helpers belong in `.phpstorm.meta.php` and `_ide_helper.php`. Do not edit them manually; regenerate them with Artisan when needed.
+
+### Service Providers
+
+- Do NOT create unnecessary Service Providers.
+- Keep route bindings, gates, policies, and simple custom validations inside `AppServiceProvider`.
+- Only create a new dedicated provider when strictly necessary (e.g. isolating an external integration or a dedicated domain suite like CPF/CNPJ validation).
 
 ## APIs & Eloquent Resources
 
@@ -150,6 +187,16 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Livewire allows you to build dynamic, reactive interfaces in PHP without writing JavaScript.
 - You can use Alpine.js for client-side interactions instead of JavaScript frameworks.
 - Keep state server-side so the UI reflects it. Validate and authorize in actions as you would in HTTP requests.
+
+=== flux/ui rules ===
+
+# Flux UI
+
+- Always use Flux UI components (`<flux:*>`) for all UI elements and form controls (selects, inputs, buttons, modals, tables, badges, etc.).
+- Never use raw HTML tags (e.g. `<select>`, `<input>`, `<button>`, `<table>`) when a Flux UI component exists.
+- When rendering selections or badges that represent domain states, iterate directly over PHP Backed Enum cases.
+
+
 
 === pint/core rules ===
 
