@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum UserRole: string
 {
-    case Admin = 'admin';
+    case Administrador = 'administrador';
     case Gerente = 'gerente';
     case Desenvolvedor = 'desenvolvedor';
     case Cliente = 'cliente';
@@ -15,7 +15,7 @@ enum UserRole: string
     public function label(): string
     {
         return match ($this) {
-            self::Admin => 'Administrador',
+            self::Administrador => 'Administrador',
             self::Gerente => 'Gerente',
             self::Desenvolvedor => 'Desenvolvedor',
             self::Cliente => 'Cliente',
@@ -27,15 +27,15 @@ enum UserRole: string
      */
     public function canManageProjects(): bool
     {
-        return in_array($this, [self::Admin, self::Gerente]);
+        return in_array($this, [self::Administrador, self::Gerente]);
     }
 
     /**
-     * Verifica se o usuário é admin.
+     * Verifica se o usuário é administrador.
      */
-    public function isAdmin(): bool
+    public function isAdministrador(): bool
     {
-        return $this === self::Admin;
+        return $this === self::Administrador;
     }
 
     /**
@@ -67,7 +67,7 @@ enum UserRole: string
      */
     public function canManageUsers(): bool
     {
-        return in_array($this, [self::Admin, self::Gerente]);
+        return in_array($this, [self::Administrador, self::Gerente]);
     }
 
     /**
@@ -76,7 +76,7 @@ enum UserRole: string
     public function color(): string
     {
         return match ($this) {
-            self::Admin => 'purple',
+            self::Administrador => 'purple',
             self::Gerente => 'amber',
             self::Desenvolvedor => 'sky',
             self::Cliente => 'zinc',
