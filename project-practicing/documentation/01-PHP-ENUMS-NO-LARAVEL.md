@@ -156,3 +156,22 @@ Se alguém tentar enviar `"hacker"` ou `"superuser"`, o Laravel rejeita a requis
 | **Como converter no Model?** | Declarar `'campo' => MeuEnum::class` no método `casts()`. |
 | **Como validar?** | `Rule::enum(MeuEnum::class)` nas regras de validação. |
 | **Onde colocar labels e cores?** | Métodos `label()` e `color()` direto dentro do arquivo do Enum. |
+
+---
+
+## 🏁 Checkpoint: Módulo Concluído!
+
+- [x] **Conceito & Domínio:** Compreensão de Backed Enums (`string`) e eliminação de *strings mágicas*.
+- [x] **Implementação dos Enums em [`app/Enums/`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/app/Enums):**
+  - [x] [`UserRole.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/app/Enums/UserRole.php): Papéis de usuário, métodos de permissão (`canManageProjects`, `canManageUsers`), verificadores (`isAdministrador`, `isDesenvolvedor`, etc.), cores Flux/Tailwind e `values()`.
+  - [x] [`TaskStatus.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/app/Enums/TaskStatus.php): Status de tarefas (`Afazer`, `EmAndamento`, `EmRevisao`, `Concluida`, `Cancelada`), ícones Heroicons/Flux, cores, verificação de estado final (`isFinal`) e `values()`.
+  - [x] [`TaskPriority.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/app/Enums/TaskPriority.php): Prioridades (`Baixo`, `Medio`, `Alto`, `Urgente`), labels amigáveis, cores e `values()`.
+- [x] **Eloquent Casts:** Configurado no método `casts()` da Model [`User.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/app/Models/User.php#L27-L34).
+- [x] **Testes Automatizados (Pest):** 100% de cobertura com 18 testes unitários e 76 asserções em [`tests/Unit/Enums/`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/tests/Unit/Enums):
+  - [x] [`UserRoleTest.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/tests/Unit/Enums/UserRoleTest.php)
+  - [x] [`TaskStatusTest.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/tests/Unit/Enums/TaskStatusTest.php)
+  - [x] [`TaskPriorityTest.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/tests/Unit/Enums/TaskPriorityTest.php)
+- [x] **Qualidade & Tipagem:** Aprovado no PHPStan (Nível 7, 0 erros) e alinhado com o Laravel Pint.
+
+> 🚀 **Próximo Passo:** [`02-CASTS-AVANCADOS-ELOQUENT.md`](./02-CASTS-AVANCADOS-ELOQUENT.md) (Fase 2 & 3: Migrations, Casts Avançados `AsArrayObject`, `encrypted` e Models).
+

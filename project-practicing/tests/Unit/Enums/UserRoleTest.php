@@ -31,3 +31,43 @@ test('o metodo values retorna todas as strings permitidas', function () {
         'cliente',
     ]);
 });
+
+test('o enum user role retorna a cor compativel com flux ui / tailwind badges', function () {
+    expect(UserRole::Administrador->color())->toBe('purple')
+        ->and(UserRole::Gerente->color())->toBe('amber')
+        ->and(UserRole::Desenvolvedor->color())->toBe('sky')
+        ->and(UserRole::Cliente->color())->toBe('zinc');
+});
+
+test('apenas administrador e gerente podem gerenciar usuarios', function () {
+    expect(UserRole::Administrador->canManageUsers())->toBeTrue()
+        ->and(UserRole::Gerente->canManageUsers())->toBeTrue();
+
+    expect(UserRole::Desenvolvedor->canManageUsers())->toBeFalse()
+        ->and(UserRole::Cliente->canManageUsers())->toBeFalse();
+});
+
+test('o metodo isDesenvolvedor identifica corretamente o papel', function () {
+    expect(UserRole::Desenvolvedor->isDesenvolvedor())->toBeTrue();
+
+    expect(UserRole::Administrador->isDesenvolvedor())->toBeFalse()
+        ->and(UserRole::Gerente->isDesenvolvedor())->toBeFalse()
+        ->and(UserRole::Cliente->isDesenvolvedor())->toBeFalse();
+});
+
+test('os metodos de verificacao de papel identificam corretamente seus papeis', function () {
+    expect(UserRole::Administrador->isAdministrador())->toBeTrue()
+        ->and(UserRole::Gerente->isAdministrador())->toBeFalse()
+        ->and(UserRole::Desenvolvedor->isAdministrador())->toBeFalse()
+        ->and(UserRole::Cliente->isAdministrador())->toBeFalse();
+
+    expect(UserRole::Gerente->isGerente())->toBeTrue()
+        ->and(UserRole::Administrador->isGerente())->toBeFalse()
+        ->and(UserRole::Desenvolvedor->isGerente())->toBeFalse()
+        ->and(UserRole::Cliente->isGerente())->toBeFalse();
+
+    expect(UserRole::Cliente->isCliente())->toBeTrue()
+        ->and(UserRole::Administrador->isCliente())->toBeFalse()
+        ->and(UserRole::Gerente->isCliente())->toBeFalse()
+        ->and(UserRole::Desenvolvedor->isCliente())->toBeFalse();
+});

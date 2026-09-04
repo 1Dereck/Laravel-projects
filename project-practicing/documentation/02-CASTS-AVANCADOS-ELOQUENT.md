@@ -172,3 +172,63 @@ echo $product->price; // Retorna float: 19.90
 | **Dado Sensível** | `'encrypted'` | Criptografa no banco e descriptografa na leitura. |
 | **Data/Hora** | `'immutable_datetime'` | Cria `CarbonImmutable` prevenindo mutações colaterais em datas. |
 | **Objeto de Domínio** | `CustomCast::class` | Regra customizada via `CastsAttributes`. |
+
+---
+
+## 🏁 Checkpoint: Conceitos de Casts Consolidados!
+
+### 💡 Por que NÃO vamos criar uma pasta `app/Casts/`?
+No projeto **TaskForge**, **não é necessário criar manualmente uma pasta `app/Casts/`** nem classes de Cast personalizadas.
+- **Motivo:** O ecossistema moderno do Laravel já fornece todos os Casts avançados que o nosso sistema necessita de forma 100% nativa:
+  - `AsArrayObject::class` (para o JSON `settings` de Projetos e `metadata` de Tarefas).
+  - `'encrypted'` (para proteção do segredo `api_secret`).
+  - Nossos Enums nativos (`TaskStatus::class`, `TaskPriority::class`, `UserRole::class`).
+  - `'immutable_datetime'` (para segurança de datas).
+
+### 🛠️ Quando seria necessário criar uma pasta `app/Casts/`?
+A criação manual de classes em `app/Casts/` (implementando a interface `CastsAttributes`) só é necessária quando criamos uma regra de conversão muito específica de domínio que o Laravel não possui por padrão, como por exemplo:
+1. **Cast de CPF/CNPJ (`CpfCast`):**
+   - No `get()`: converte `12345678901` do banco para `'123.456.789-01'` na tela.
+   - No `set()`: limpa pontos e traços de `'123.456.789-01'` e grava apenas `12345678901` no banco.
+2. **Cast de Moeda/Centavos (`MoneyCast`):**
+   - Converte valores flutuantes como `19.90` para inteiros `1990` no banco, evitando imprecisões decimais do SQL.
+
+---
+
+### 🚀 Próximo Passo: Indo para as Models (`app/Models/`)
+
+Agora que o conceito de Casts está compreendido e as Migrations do banco já estão criadas e testadas, o nosso trabalho com Casts acontece diretamente nas Models!
+
+O que faremos a seguir:
+1. **Criar a Model [`app/Models/Project.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/app/Models/Project.php):**
+   - Atributos PHP 8: `#[Fillable(['user_id', 'name', 'description', 'settings', 'api_secret'])]`
+   - Relacionamento: `belongsTo(User::class)` e `hasMany(Task::class)`.
+   - Método `casts()`:
+     ```php
+     protected function casts(): array
+     {
+         return [
+             'settings' => AsArrayObject::class,
+             'api_secret' => 'encrypted',
+         ];
+     }
+     ```
+2. **Criar a Model [`app/Models/Task.php`](file:///c:/1Projetos-GitHub-Desktop/Laravel-projects/project-practicing/app/Models/Task.php):**
+   - Atributos PHP 8: `#[Fillable(['project_id', 'assigned_to', 'title', 'description', 'status', 'deadline_at', 'priority', 'metadata'])]`
+   - Relacionamento: `belongsTo(Project::class)` e `belongsTo(User::class, 'assigned_to')`.
+   - Método `casts()`:
+     ```php
+     protected function casts(): array
+     {
+         return [
+             'status' => TaskStatus::class,
+             'priority' => TaskPriority::class,
+             'deadline_at' => 'immutable_datetime',
+             'metadata' => AsArrayObject::class,
+         ];
+     }
+     ```
+3. **Validar com Testes Pest:**
+   - Testar mutação do JSON via `AsArrayObject` em tempo real.
+   - Testar criptografia e integridade dos Casts no banco de dados.
+
