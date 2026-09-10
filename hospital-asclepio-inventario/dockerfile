@@ -1,0 +1,35 @@
+FROM php:8.5-fpm-alpine
+
+# Instala pacotes do sistema e bibliotecas C necessárias para compilar as extensões
+RUN apk add --no-cache \
+    bash \
+    curl \
+    libpng-dev \
+    libxml2-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    git \
+    oniguruma-dev \
+    icu-dev
+
+# Compila e ativa as extensões do PHP
+RUN docker-php-ext-install \
+    pdo_mysql \
+    mysqli \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    intl \
+    gd \
+    zip
+
+# Instala o Composer diretamente da imagem oficial
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Diretório de trabalho dentro do container
+WORKDIR /var/www
+
+EXPOSE 9000
+CMD ["php-fpm"]
