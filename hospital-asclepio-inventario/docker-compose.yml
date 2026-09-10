@@ -1,0 +1,51 @@
+services:
+  # 1. Serviço da Aplicação (PHP 8.5 + Laravel)
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: asclepio-app
+    container_name: asclepio_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    networks:
+      - asclepio-network
+
+  # 2. Servidor Web (Nginx)
+  nginx:
+    image: nginx:alpine
+    container_name: asclepio_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - asclepio-network
+
+  # 3. Banco de Dados (MySQL 8.4)
+  db:
+    image: mysql:8.4
+    container_name: asclepio_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: hospital_asclepio
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - asclepio-network
+
+networks:
+  asclepio-network:
+    driver: bridge
+
+volumes:
+  db_data:
