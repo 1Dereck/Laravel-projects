@@ -29,7 +29,7 @@ RUN docker-php-ext-install \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Diretório de trabalho dentro do container
-WORKDIR /var/www
+WORKDIR /app
 
 EXPOSE 9000
 CMD ["php-fpm"]

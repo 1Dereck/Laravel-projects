@@ -1,12 +1,13 @@
 # 🏥 Hospitais Asclépio — Sistema de Inventário TI
 
-![Versão](https://img.shields.io/badge/vers%C3%A3o-v1.0.2-emerald?style=for-the-badge)
+![Versão](https://img.shields.io/badge/vers%C3%A3o-v1.0.3-emerald?style=for-the-badge)
 ![PHP](https://img.shields.io/badge/PHP-8.5-blue?style=for-the-badge&logo=php)
 ![Laravel](https://img.shields.io/badge/Laravel-v13.17-red?style=for-the-badge&logo=laravel)
 ![Livewire](https://img.shields.io/badge/Livewire-v4.1-pink?style=for-the-badge&logo=livewire)
 ![Flux UI](https://img.shields.io/badge/Flux_UI-v2.15-06B6D4?style=for-the-badge)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4.0-06B6D4?style=for-the-badge&logo=tailwindcss)
 ![Pest](https://img.shields.io/badge/Pest-v4.7-purple?style=for-the-badge&logo=pest)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
 
 O **Sistema de Inventário Hospitais Asclépio** é uma solução web reativa corporativa desenvolvida para digitalizar, padronizar e gerenciar o parque tecnológico (desktops, notebooks, monitores e periféricos) da equipe de Tecnologia da Informação no ambiente hospitalar.
 
@@ -136,6 +137,15 @@ O sistema possui **4 níveis de acesso hierárquicos e especializados**:
 | **@tailwindcss/vite** | `^4.1.11` | Plugin oficial de integração do Tailwind CSS v4 com a pipeline Vite |
 | **vite** | `^8.0.0` | Bundler e servidor de desenvolvimento ultra-rápido para assets front-end |
 
+### Infraestrutura & Containers
+
+| Serviço | Imagem / Versão | Porta | Finalidade |
+| :--- | :---: | :---: | :--- |
+| **App (PHP)** | `php:8.5-fpm-alpine` | `9000` (interna) | Container da aplicação com Composer oficial e extensões completas para Laravel |
+| **Web (Nginx)** | `nginx:alpine` | `8000:80` | Servidor Web servindo assets estáticos e despachando FastCGI para o container PHP |
+| **Banco (MySQL)** | `mysql:8.4` | `3307:3306` | Banco de dados relacional MySQL com persistência de volume `db_data` |
+| **Docker Compose** | `v2+` | — | Orquestrador dos serviços, volumes mapeados em `/app` e rede isolada `asclepio-network` |
+
 ---
 
 ## ⚡ Tecnologia Principal: Livewire 4 & Blaze
@@ -175,30 +185,17 @@ A interface do usuário utiliza o **Flux UI** (`livewire/flux`) para padronizaç
 
 ---
 
-## ⚙️ Instalação e Configuração
+## ⚙️ Instalação e Execução
 
-### 📋 Pré-requisitos
+### 🐳 Opção 1: Rodando com Docker (Recomendado)
 
-- **PHP**: `^8.3` ou `8.5` (extensões habilitadas: `pdo_sqlite`, `mbstring`, `openssl`, `gd`, `xml`, `curl`, `zip`).
-- **Composer**: `^2.0` ou superior.
-- **Node.js**: `^18.0` ou `^20.0` e **NPM** `^10.0`.
-- **Git**.
+Esta é a forma mais rápida e padronizada de executar a aplicação. O ambiente já sobe com **PHP 8.5**, **Nginx** e **MySQL 8.4** isolados e pré-configurados.
 
----
+#### 📋 Pré-requisitos
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado e rodando.
+- [Git](https://git-scm.com/) instalado.
 
-### ⚡ Setup Automático
-
-```bash
-git clone https://github.com/1Dereck/hospital-aetheris-inventario.git
-cd hospital-aetheris-inventario
-composer run setup
-php artisan db:seed
-composer run dev
-```
-
----
-
-### 🛠️ Setup Manual no Terminal
+#### 🚀 Passo a Passo
 
 1. **Clonar o Repositório**:
    ```bash
@@ -206,25 +203,88 @@ composer run dev
    cd hospital-aetheris-inventario
    ```
 
-2. **Instalar Dependências**:
+2. **Configurar o Arquivo `.env`**:
+   ```bash
+   cp .env.example .env
+   ```
+   > Certifique-se de que no seu `.env` o banco aponta para o container do MySQL:
+   > ```env
+   > DB_CONNECTION=mysql
+   > DB_HOST=db
+   > DB_PORT=3306
+   > DB_DATABASE=hospital_asclepio
+   > DB_USERNAME=root
+   > DB_PASSWORD=root
+   > ```
+
+3. **Construir e Subir os Containers**:
+   ```bash
+   docker compose up -d --build
+   ```
+
+4. **Instalar Dependências e Gerar a Chave**:
+   ```bash
+   docker compose exec app composer install
+   docker compose exec app php artisan key:generate
+   ```
+
+5. **Executar as Migrações e Seeders**:
+   ```bash
+   docker compose exec app php artisan migrate --seed
+   ```
+
+6. **Acessar a Aplicação**:
+   > Acesse no seu navegador: **`http://localhost:8000`**
+
+#### 📌 Comandos Úteis do Docker no Dia a Dia:
+
+```bash
+# Desligar todos os containers
+docker compose down
+
+# Ligar novamente os containers existentes
+docker compose up -d
+
+# Visualizar logs em tempo real (ex: do container PHP)
+docker compose logs -f app
+
+# Acessar o terminal interativo dentro do container da aplicação
+docker compose exec app bash
+
+# Rodar a suíte de testes do Pest pelo container
+docker compose exec app php artisan test --compact
+```
+
+---
+
+### 💻 Opção 2: Setup Local (Sem Docker)
+
+#### 📋 Pré-requisitos
+- **PHP**: `^8.3` ou `8.5` (extensões: `pdo_mysql` ou `pdo_sqlite`, `mbstring`, `openssl`, `gd`, `xml`, `curl`, `zip`).
+- **Composer**: `^2.0` ou superior.
+- **Node.js**: `^18.0` ou `^20.0` e **NPM** `^10.0`.
+- **Git**.
+
+#### 🛠️ Passo a Passo
+
+1. **Instalar Dependências**:
    ```bash
    composer install
    npm install
    ```
 
-3. **Configurar Ambiente**:
+2. **Configurar Ambiente e Chave**:
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
 
-4. **Executar Migrações e Seeders**:
-
+3. **Executar Migrações e Seeders**:
    ```bash
    php artisan migrate --seed
    ```
 
-5. **Compilar Assets e Iniciar**:
+4. **Compilar Assets e Iniciar o Servidor**:
    ```bash
    npm run build
    composer run dev

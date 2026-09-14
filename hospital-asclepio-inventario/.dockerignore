@@ -1,0 +1,40 @@
+# Versionamento (Git)
+.git
+.gitignore
+.gitattributes
+
+# Dependências (montadas via volume no dev ou instaladas no container)
+/vendor
+/node_modules
+
+# Arquivos de ambiente e chaves sensíveis
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs, depuração e caches do Laravel
+*.log
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/*.php
+
+# IDEs, Editores e Arquivos de Sistema
+.vscode
+.idea
+.fleet
+.DS_Store
+Thumbs.db
+
+# Testes e relatórios de cobertura
+.phpunit.cache
+.phpunit.result.cache
+
+# Arquivos do Docker (não precisam ser copiados para o container)
+Dockerfile*
+dockerfile*
+docker-compose*.yml
+.dockerignore
