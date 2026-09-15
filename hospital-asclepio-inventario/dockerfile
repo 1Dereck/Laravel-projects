@@ -1,20 +1,15 @@
-FROM php:8.5-fpm-alpine
+FROM dunglas/frankenphp:php8.5-alpine
 
-# Instala pacotes do sistema e bibliotecas C necessárias para compilar as extensões
+# Instala pacotes do sistema
 RUN apk add --no-cache \
     bash \
     curl \
-    libpng-dev \
-    libxml2-dev \
-    libzip-dev \
-    zip \
-    unzip \
     git \
-    oniguruma-dev \
-    icu-dev
+    zip \
+    unzip
 
-# Compila e ativa as extensões do PHP
-RUN docker-php-ext-install \
+# Instala as extensões PHP via script nativo do FrankenPHP
+RUN install-php-extensions \
     pdo_mysql \
     mysqli \
     mbstring \
@@ -31,5 +26,5 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Diretório de trabalho dentro do container
 WORKDIR /app
 
-EXPOSE 9000
-CMD ["php-fpm"]
+ENV SERVER_NAME=":80"
+
