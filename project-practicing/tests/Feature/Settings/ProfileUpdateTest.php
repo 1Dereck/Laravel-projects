@@ -3,16 +3,19 @@
 use App\Models\User;
 use Livewire\Livewire;
 
-test('profile page is displayed', function () {
-    $this->actingAs($user = User::factory()->create());
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
-    $this->get(route('profile.edit'))->assertOk();
+test('profile page is displayed', function () {
+    actingAs($user = User::factory()->create());
+
+    get(route('profile.edit'))->assertOk();
 });
 
 test('profile information can be updated', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $response = Livewire::test('pages::settings.profile')
         ->set('name', 'Test User')
@@ -31,7 +34,7 @@ test('profile information can be updated', function () {
 test('email verification status is unchanged when email address is unchanged', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $response = Livewire::test('pages::settings.profile')
         ->set('name', 'Test User')
@@ -46,7 +49,7 @@ test('email verification status is unchanged when email address is unchanged', f
 test('user can delete their account', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $response = Livewire::test('pages::settings.delete-user-modal')
         ->set('password', 'password')
@@ -63,7 +66,7 @@ test('user can delete their account', function () {
 test('correct password must be provided to delete account', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $response = Livewire::test('pages::settings.delete-user-modal')
         ->set('password', 'wrong-password')

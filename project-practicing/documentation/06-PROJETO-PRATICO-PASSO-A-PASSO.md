@@ -8,7 +8,7 @@
 
 - [x] **Fase 1: Enums do PHP 8.1+, Métodos de Domínio e Testes Unitários com Pest**
 - [x] **Fase 2: Banco de Dados, Migrations Modernas e Testes de Schema com Pest**
-- [ ] **Fase 3: Models Eloquent com Casts Avançados, Scopes e Testes com Pest**
+- [x] **Fase 3: Models Eloquent com Casts Avançados, Scopes e Testes com Pest**
 - [ ] **Fase 4: Factories, Seeders Realistas e Testes de Criação**
 - [ ] **Fase 5: Camada de Segurança: Gates, Policies e Testes de Autorização (403/200)**
 - [ ] **Fase 6: Actions, Form Requests e Testes de Regra de Negócio**

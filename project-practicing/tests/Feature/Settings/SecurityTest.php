@@ -4,13 +4,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 
-beforeEach(function () {
-});
+use function Pest\Laravel\actingAs;
+
+beforeEach(function () {});
 
 test('security settings page can be rendered', function () {
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)
+    $response = actingAs($user)
         ->get(route('security.edit'));
 
     $response->assertOk();
@@ -21,7 +22,7 @@ test('security settings page renders without two factor when feature is disabled
 
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get(route('security.edit'))
         ->assertOk()
         ->assertSee('Update password')
@@ -30,15 +31,14 @@ test('security settings page renders without two factor when feature is disabled
         ->assertDontSee('Two-factor authentication');
 });
 
-test('two factor authentication disabled when confirmation abandoned between requests', function () {
-});
+test('two factor authentication disabled when confirmation abandoned between requests', function () {});
 
 test('password can be updated', function () {
     $user = User::factory()->create([
         'password' => Hash::make('password'),
     ]);
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $response = Livewire::test('pages::settings.security')
         ->set('current_password', 'password')
@@ -56,7 +56,7 @@ test('correct password must be provided to update password', function () {
         'password' => Hash::make('password'),
     ]);
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $response = Livewire::test('pages::settings.security')
         ->set('current_password', 'wrong-password')

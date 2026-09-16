@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'description', 'settings', 'api_secret'])]
+#[Fillable(['name', 'description', 'settings', 'api_secret', 'user_id'])]
 class Project extends Model
 {
     use HasFactory;

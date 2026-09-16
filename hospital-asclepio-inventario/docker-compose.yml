@@ -11,6 +11,7 @@ services:
       - "8000:80"
     environment:
       SERVER_NAME: ":80"
+      TZ: America/Sao_Paulo
     working_dir: /app
     volumes:
       - .:/app
@@ -25,6 +26,7 @@ services:
     environment:
       MYSQL_DATABASE: hospital_asclepio
       MYSQL_ROOT_PASSWORD: root
+      TZ: America/Sao_Paulo
     ports:
       - "3307:3306"
     volumes:

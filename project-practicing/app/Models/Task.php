@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['title', 'description', 'status', 'priority', 'deadline_at', 'metadata', 'assigned_to'])]
+#[Fillable(['title', 'description', 'status', 'priority', 'deadline_at', 'metadata', 'assigned_to', 'project_id'])]
 class Task extends Model
 {
     use HasFactory;
@@ -22,7 +22,7 @@ class Task extends Model
         return [
             'status' => TaskStatus::class,
             'priority' => TaskPriority::class,
-            'deadline_at' => 'immutable_date',
+            'deadline_at' => 'immutable_datetime',
             'metadata' => AsArrayObject::class,
         ];
     }
