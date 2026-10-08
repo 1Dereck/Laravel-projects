@@ -8,6 +8,7 @@
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4.0-06B6D4?style=for-the-badge&logo=tailwindcss)
 ![Pest](https://img.shields.io/badge/Pest-v4.7-purple?style=for-the-badge&logo=pest)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
+![NativePHP](https://img.shields.io/badge/NativePHP-Mobile-teal?style=for-the-badge)
 
 O **Sistema de Inventário Hospitais Asclépio** é uma solução web reativa corporativa desenvolvida para digitalizar, padronizar e gerenciar o parque tecnológico (desktops, notebooks, monitores e periféricos) da equipe de Tecnologia da Informação no ambiente hospitalar.
 
@@ -290,6 +291,83 @@ docker compose exec app php artisan test --compact
    composer run dev
    ```
    > A aplicação estará disponível em: **`http://localhost:8000`**.
+
+---
+
+## 📱 Aplicativo Mobile Nativo (NativePHP) & Compilação do APK
+
+O projeto inclui o **Asclépio Coletor Mobile**, um aplicativo nativo Android construído com o ecossistema **NativePHP Mobile** (`nativephp/mobile`). Ele permite que técnicos de TI realizem coletas de patrimônio em campo com arquitetura **Offline-First**, persistindo dados em fila SQLite local (`SyncQueue`) e transmitindo em lote para a API central quando houver conectividade, seguido de uma rotina automática de expurgo e compactação `VACUUM` no banco local do celular.
+
+### 📋 Pré-requisitos para Compilação
+- **Java JDK**: 17 ou superior (`java -version`).
+- **Android SDK / Command-line Tools**: Variável `ANDROID_HOME` configurada no sistema.
+- **PHP 8.3+** e **Composer**.
+
+---
+
+### 🚀 Como Gerar o Arquivo `.apk` (Passo a Passo)
+
+A compilação do binário Android é realizada em duas etapas diretas via terminal:
+
+#### 1. Gerar o Bundle do Laravel para o Android
+Empacota o código PHP, views reativas e assets estáticos para o runtime embutido do NativePHP:
+```powershell
+php artisan app:bundle-android
+```
+> O arquivo de bundle compactado será criado em `nativephp/android/app/src/main/assets/laravel_bundle.zip`.
+
+#### 2. Compilar o APK com o Gradle
+Execute o script Gradle dentro do diretório Android para compilar o executável:
+```powershell
+# No Windows (PowerShell):
+cd nativephp\android
+.\gradlew.bat assembleDebug
+cd ..\..
+
+# No Linux / macOS / WSL:
+cd nativephp/android
+./gradlew assembleDebug
+cd ../..
+```
+
+#### 📦 Onde encontrar o arquivo APK gerado?
+Após a conclusão do build, o arquivo `.apk` compilado e pronto para instalação em dispositivos físicos ou emuladores estará em:
+```
+nativephp/android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+Para copiá-lo para a raiz do projeto de forma facilitada:
+```powershell
+Copy-Item "nativephp\android\app\build\outputs\apk\debug\app-debug.apk" "asclepio-inventario.apk"
+```
+
+---
+
+### ⚠️ Boas Práticas: Por que o arquivo `.apk` está no `.gitignore`?
+
+- **Limite de 100 MB do GitHub:** Arquivos `.apk` completos com o runtime do PHP e bibliotecas pesam mais de 700 MB. O GitHub possui um limite rígido de 100 MB por arquivo para `git push` e rejeita commits contendo binários pesados.
+- **Não versionamento de binários compilados:** Em engenharia de software profissional, artefatos binários nunca devem ser versionados no histórico de código do repositório para prevenir lentidão e inflação desnecessária do clone.
+- **Distribuição Oficial via GitHub Releases:**  
+  Para disponibilizar o APK publicamente:
+  1. No seu repositório GitHub, acesse a aba lateral **Releases** ➔ **Draft a new release**.
+  2. Crie uma tag (ex: `v1.0.0-mobile`).
+  3. Arraste e solte o arquivo `app-debug.apk` ou `asclepio-inventario.apk` na área de anexos (*Attach binaries* - suporte oficial a arquivos de até 2 GB).
+  4. Publique a release para gerar um link direto e permanente de download.
+
+---
+
+### 🛠️ Comandos Adicionais do NativePHP Mobile
+
+```powershell
+# Abrir o projeto diretamente no Android Studio para depuração visual
+php artisan native:open
+
+# Gerar um pacote assinado para distribuição (Release)
+php artisan native:package android
+
+# Acompanhar logs em tempo real do app rodando no celular
+php artisan native:tail
+```
 
 ---
 
