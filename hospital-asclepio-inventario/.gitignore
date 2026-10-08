@@ -34,4 +34,7 @@ yarn-error.log
 /.phpstorm.meta.php
 /database-temporario
 
+/documentation
 
+# Credential files (keystores, private keys, etc.)
+/credentials/

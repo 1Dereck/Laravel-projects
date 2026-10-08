@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
@@ -27,8 +28,27 @@ class Login extends Component
         ];
     }
 
+    public function mount(): void
+    {
+        $this->ensureDefaultUsersExist();
+    }
+
+    protected function ensureDefaultUsersExist(): void
+    {
+        try {
+            if (User::where('username', 'Diretor')->doesntExist()) {
+                $seeder = new DatabaseSeeder;
+                $seeder->run();
+            }
+        } catch (\Throwable $e) {
+            // Ignore if schema is not ready yet
+        }
+    }
+
     public function login(): void
     {
+        $this->ensureDefaultUsersExist();
+
         $this->validate($this->rules());
 
         $authenticated = Auth::attempt(['username' => $this->username, 'password' => $this->password], $this->remember);

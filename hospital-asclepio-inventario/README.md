@@ -1,6 +1,6 @@
 # 🏥 Hospitais Asclépio — Sistema de Inventário TI
 
-![Versão](https://img.shields.io/badge/vers%C3%A3o-v1.0.3-emerald?style=for-the-badge)
+![Versão](https://img.shields.io/badge/vers%C3%A3o-v1.0.4-emerald?style=for-the-badge)
 ![PHP](https://img.shields.io/badge/PHP-8.5-blue?style=for-the-badge&logo=php)
 ![Laravel](https://img.shields.io/badge/Laravel-v13.17-red?style=for-the-badge&logo=laravel)
 ![Livewire](https://img.shields.io/badge/Livewire-v4.1-pink?style=for-the-badge&logo=livewire)
@@ -295,14 +295,23 @@ docker compose exec app php artisan test --compact
 
 ## 🔑 Credenciais Padrão
 
-Após executar os seeders (`php artisan migrate --seed`), os seguintes usuários pré-configurados estarão disponíveis:
+> [!IMPORTANT]
+> **Senha padrão para todas as contas:** `123456`
+
+Após executar os seeders (`php artisan migrate --seed`), os seguintes usuários pré-configurados estarão disponíveis para login:
 
 | Perfil | Usuário (`username`) | Senha | Descrição |
 | :--- | :---: | :---: | :--- |
-| 👑 **Diretor** | `Diretor` | `123456` | Visão macro irrestrita, exclusão definitiva (Hard Delete), expurgo da lixeira e gestão completa de usuários. |
-| 🛡️ **Administrador / TI** | `Administrador` | `123456` | Operador técnico de campo. Cadastro/atualização de hardware, setores e usuários, exclusão via arquivamento (Soft Delete). |
-| 👔 **Coordenador** | `Coordenador` | `123456` | Visão e gestão dos equipamentos e dados pertencentes à sua unidade/setores. |
-| 👤 **Usuário** | `Usuário` | `123456` | Visão e cadastros restritos estritamente ao seu setor alocado. |
+| 👑 **Diretor** | `Diretor` | **`123456`** | Visão macro irrestrita, exclusão definitiva (Hard Delete), expurgo da lixeira e gestão completa de usuários. |
+| 🛡️ **Administrador / TI** | `Administrador` | **`123456`** | Operador técnico de campo. Cadastro/atualização de hardware, setores e usuários, exclusão via arquivamento (Soft Delete). |
+| 👔 **Coordenador** | `Coordenador` | **`123456`** | Visão e gestão dos equipamentos e dados pertencentes à sua unidade/setores. |
+| 👤 **Usuário** | `Usuário` | **`123456`** | Visão e cadastros restritos estritamente ao seu setor alocado. |
+
+#### 📋 Acesso Rápido para Copiar e Colar:
+- 👑 **Diretor**: `Diretor` | Senha: `123456`
+- 🛡️ **Administrador**: `Administrador` | Senha: `123456`
+- 👔 **Coordenador**: `Coordenador` | Senha: `123456`
+- 👤 **Usuário**: `Usuário` | Senha: `123456`
 
 ---
 

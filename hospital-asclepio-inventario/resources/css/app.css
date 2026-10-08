@@ -10,3 +10,18 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/* Safe Area Insets for Mobile NativePHP and Notch / Status Bar / Navigation Bar */
+:root {
+    --safe-top: max(env(safe-area-inset-top, 0px), var(--inset-top, 0px));
+    --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--inset-bottom, 0px));
+    --safe-left: max(env(safe-area-inset-left, 0px), var(--inset-left, 0px));
+    --safe-right: max(env(safe-area-inset-right, 0px), var(--inset-right, 0px));
+}
+
+@media (max-width: 768px) {
+    html.is-mobile-device {
+        --safe-top: max(env(safe-area-inset-top, 0px), var(--inset-top, 32px));
+        --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--inset-bottom, 40px));
+    }
+}
+

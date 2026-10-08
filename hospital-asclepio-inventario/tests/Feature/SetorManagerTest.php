@@ -4,10 +4,12 @@ use App\Models\Local;
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+
 test('setores page can be rendered by authenticated user', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get('/setores')
         ->assertStatus(200);
 });

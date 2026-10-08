@@ -1,7 +1,9 @@
 <?php
 
+use function Pest\Laravel\get;
+
 test('unauthenticated root request redirects to login', function () {
-    $response = $this->get('/');
+    $response = get('/');
 
     $response->assertRedirect('/login');
 });

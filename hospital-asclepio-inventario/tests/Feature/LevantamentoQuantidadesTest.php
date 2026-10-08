@@ -7,10 +7,12 @@ use App\Models\Secretaria;
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+
 test('pagina de levantamento de quantidades pode ser acessada por usuario autenticado', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get('/quantidades')
         ->assertStatus(200);
 });
@@ -180,22 +182,22 @@ test('pode gerar pdf de levantamento de secretaria e local inclusive geral', fun
         'secretaria_id' => $secretaria->id_secretarias,
     ]);
 
-    $this->actingAs($diretor)
+    actingAs($diretor)
         ->get('/quantidades/secretaria/0/pdf')
         ->assertStatus(200)
         ->assertHeader('content-type', 'application/pdf');
 
-    $this->actingAs($diretor)
+    actingAs($diretor)
         ->get("/quantidades/secretaria/{$secretaria->id_secretarias}/pdf")
         ->assertStatus(200)
         ->assertHeader('content-type', 'application/pdf');
 
-    $this->actingAs($diretor)
+    actingAs($diretor)
         ->get('/quantidades/local/0/pdf')
         ->assertStatus(200)
         ->assertHeader('content-type', 'application/pdf');
 
-    $this->actingAs($diretor)
+    actingAs($diretor)
         ->get("/quantidades/local/{$local->id_local}/pdf")
         ->assertStatus(200)
         ->assertHeader('content-type', 'application/pdf');

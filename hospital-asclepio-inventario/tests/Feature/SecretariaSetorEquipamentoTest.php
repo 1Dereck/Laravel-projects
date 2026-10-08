@@ -7,6 +7,8 @@ use App\Models\Secretaria;
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\assertDatabaseHas;
+
 test('equipamento form allows selecting secretaria and filtering locais', function () {
     $user = User::factory()->create();
     $sec1 = Secretaria::create([
@@ -32,7 +34,7 @@ test('equipamento form allows selecting secretaria and filtering locais', functi
         ->set('responsavel_levantamento', 'Técnico TI')
         ->call('salvar');
 
-    $this->assertDatabaseHas('equipamentos', [
+    assertDatabaseHas('equipamentos', [
         'serial' => 'SN-SEC-001',
         'setor_id' => $local1->id_local,
     ]);
@@ -57,7 +59,7 @@ test('periferico manager allows selecting secretaria and filtering locais', func
         ->set('serial_patrimonio', 'PAT-OBRAS-001')
         ->call('salvar');
 
-    $this->assertDatabaseHas('perifericos', [
+    assertDatabaseHas('perifericos', [
         'serial_patrimonio' => 'PAT-OBRAS-001',
         'setor_id' => $local->id_local,
     ]);

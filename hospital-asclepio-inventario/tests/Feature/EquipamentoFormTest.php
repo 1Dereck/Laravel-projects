@@ -6,10 +6,15 @@ use App\Models\Secretaria;
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertSoftDeleted;
+use function PHPUnit\Framework\assertCount;
+
 test('equipamentos page can be rendered by authenticated user', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get('/equipamentos')
         ->assertStatus(200);
 });
@@ -35,7 +40,7 @@ test('user can create a new equipamento with dynamic monitores and tipo_desempen
         ])
         ->call('salvar');
 
-    $this->assertDatabaseHas('equipamentos', [
+    assertDatabaseHas('equipamentos', [
         'serial' => 'SN-TEST-1234',
         'setor_id' => $local->id_local,
         'tipo_desempenho' => 'avancado',
@@ -44,8 +49,8 @@ test('user can create a new equipamento with dynamic monitores and tipo_desempen
     ]);
 
     $equipamento = Equipamento::where('serial', 'SN-TEST-1234')->first();
-    $this->assertCount(2, $equipamento->monitores);
-    $this->assertDatabaseHas('monitores', [
+    assertCount(2, $equipamento->monitores);
+    assertDatabaseHas('monitores', [
         'equipamento_id' => $equipamento->id,
         'serial' => 'MON-001',
         'marca_modelo' => 'Dell P2419H',
@@ -90,7 +95,7 @@ test('user can edit equipment tipo_desempenho', function () {
         ->set('tipo_desempenho', 'avancado')
         ->call('salvar');
 
-    $this->assertDatabaseHas('equipamentos', [
+    assertDatabaseHas('equipamentos', [
         'id' => $equipamento->id,
         'tipo_desempenho' => 'avancado',
     ]);
@@ -111,7 +116,7 @@ test('only diretor can delete equipamento', function () {
         ->test('equipamento-form')
         ->call('excluirEquipamento', $equipamento->id);
 
-    $this->assertSoftDeleted('equipamentos', [
+    assertSoftDeleted('equipamentos', [
         'id' => $equipamento->id,
     ]);
 });

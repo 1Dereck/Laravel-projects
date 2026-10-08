@@ -8,7 +8,10 @@ use App\Models\Local;
 use App\Models\Periferico;
 use App\Models\Secretaria;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
+
+use function Pest\Laravel\actingAs;
 
 test('diretor pode cadastrar um novo usuario do tipo usuario vinculado a um setor', function () {
     $diretor = User::factory()->diretor()->create();
@@ -41,11 +44,11 @@ test('usuario nao pode acessar setores mas pode acessar relatorios do seu setor'
     $local = Local::create(['local' => 'Posto de Saude Central']);
     $usuario = User::factory()->usuario($local->id_local)->create();
 
-    $this->actingAs($usuario)
+    actingAs($usuario)
         ->get(route('setores.index'))
         ->assertStatus(403);
 
-    $this->actingAs($usuario)
+    actingAs($usuario)
         ->get(route('relatorios.index'))
         ->assertStatus(200);
 });

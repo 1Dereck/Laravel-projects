@@ -5,15 +5,18 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('unauthenticated users are redirected from settings page', function () {
-    $this->get(route('configuracoes.index'))
+    get(route('configuracoes.index'))
         ->assertRedirect('/login');
 });
 
 test('authenticated users can render settings page', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get(route('configuracoes.index'))
         ->assertStatus(200)
         ->assertSee('Configurações do Sistema')

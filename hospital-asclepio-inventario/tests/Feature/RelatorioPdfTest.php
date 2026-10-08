@@ -5,10 +5,12 @@ use App\Models\Local;
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+
 test('relatorios page can be rendered', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get('/relatorios')
         ->assertStatus(200);
 });
@@ -17,7 +19,7 @@ test('pdf report can be generated for a local', function () {
     $user = User::factory()->create();
     $local = Local::create(['local' => 'Sec. Obras', 'ip_onu' => '10.20.47.1']);
 
-    $response = $this->actingAs($user)
+    $response = actingAs($user)
         ->get(route('relatorios.pdf', $local->id_local));
 
     $response->assertStatus(200);

@@ -14,6 +14,10 @@
                 document.documentElement.classList.remove('dark');
                 document.documentElement.style.backgroundColor = '#ffffff';
             }
+
+            if (/android|iphone|ipad|ipod/i.test(navigator.userAgent) || window.matchMedia('(max-width: 768px)').matches) {
+                document.documentElement.classList.add('is-mobile-device');
+            }
         })();
         
         document.addEventListener('DOMContentLoaded', () => {
@@ -39,7 +43,7 @@
     </style>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'TI Hospitalar' }} — Hospitais Asclépio</title>
     <link rel="icon" type="image/png" href="{{ asset('img/icon-hospitais-asclepio.png') }}?v=2">
@@ -56,6 +60,7 @@
     </style>
 </head>
 <body class="h-full bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-emerald-500 selection:text-white flex items-center justify-center p-4"
+      style="padding-top: max(1rem, var(--safe-top, 0px)); padding-bottom: max(1rem, var(--safe-bottom, 0px));"
       x-data="{ 
           theme: localStorage.getItem('theme') || 'system',
           setTheme(mode) {

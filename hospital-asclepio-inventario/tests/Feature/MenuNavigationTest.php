@@ -2,6 +2,8 @@
 
 use App\Models\User;
 
+use function Pest\Laravel\actingAs;
+
 test('authenticated admin can access standard routes including usuarios', function () {
     $admin = User::factory()->create([
         'role' => 'administrador',
@@ -19,7 +21,7 @@ test('authenticated admin can access standard routes including usuarios', functi
     ];
 
     foreach ($routes as $route) {
-        $response = $this->actingAs($admin)->get($route);
+        $response = actingAs($admin)->get($route);
         $response->assertStatus(200);
     }
 });
@@ -35,7 +37,7 @@ test('director user can access all administrative routes including lixeira', fun
     ];
 
     foreach ($routes as $route) {
-        $response = $this->actingAs($director)->get($route);
+        $response = actingAs($director)->get($route);
         $response->assertStatus(200);
     }
 });
@@ -45,7 +47,7 @@ test('non-director user cannot access lixeira route', function () {
         'role' => 'administrador',
     ]);
 
-    $response = $this->actingAs($admin)->get('/lixeira');
+    $response = actingAs($admin)->get('/lixeira');
     $response->assertStatus(403);
 });
 
@@ -54,7 +56,7 @@ test('admin sees gestao de usuarios link in navigation sidebar', function () {
         'role' => 'administrador',
     ]);
 
-    $response = $this->actingAs($admin)->get('/dashboard');
+    $response = actingAs($admin)->get('/dashboard');
     $response->assertStatus(200);
     $response->assertSee('Gestão de Usuários');
 });

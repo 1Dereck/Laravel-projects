@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'asclepio_servidor' => [
+        'url' => env('ASCLEPIO_SERVER_URL', 'http://127.0.0.1:8000'),
+    ],
+
 ];

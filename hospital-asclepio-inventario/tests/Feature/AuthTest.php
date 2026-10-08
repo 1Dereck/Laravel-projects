@@ -3,8 +3,14 @@
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertAuthenticated;
+use function Pest\Laravel\assertAuthenticatedAs;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\get;
+
 test('login page can be rendered', function () {
-    $response = $this->get('/login');
+    $response = get('/login');
 
     $response->assertStatus(200);
 });
@@ -21,19 +27,19 @@ test('users can authenticate using login component', function () {
         ->call('login')
         ->assertRedirect(route('dashboard', absolute: false));
 
-    $this->assertAuthenticatedAs($user);
+    assertAuthenticatedAs($user);
 });
 
 test('authenticated users can access dashboard', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get('/dashboard')
         ->assertStatus(200);
 });
 
 test('unauthenticated users are redirected to login', function () {
-    $this->get('/dashboard')
+    get('/dashboard')
         ->assertRedirect('/login');
 });
 
@@ -57,4 +63,17 @@ test('invalid credentials show error message', function () {
         ->call('login')
         ->assertHasErrors(['username' => 'Usuário ou senha incorretos'])
         ->assertSee('Usuário ou senha incorretos');
+});
+
+test('login automatically seeds default users when table is empty and allows diretor to login', function () {
+    User::query()->forceDelete();
+
+    Livewire::test('auth.login')
+        ->set('username', 'Diretor')
+        ->set('password', '123456')
+        ->call('login')
+        ->assertRedirect(route('dashboard', absolute: false));
+
+    assertAuthenticated();
+    assertDatabaseHas('users', ['username' => 'Diretor']);
 });

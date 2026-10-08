@@ -6,10 +6,13 @@ use App\Models\Secretaria;
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseHas;
+
 test('perifericos page can be rendered by authenticated user', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get('/perifericos')
         ->assertStatus(200);
 });
@@ -38,7 +41,7 @@ test('user can create a new periferico', function () {
         ->set('serial_patrimonio', 'PAT-999')
         ->call('salvar');
 
-    $this->assertDatabaseHas('perifericos', [
+    assertDatabaseHas('perifericos', [
         'tipo' => 'Impressora HP',
         'serial_patrimonio' => 'PAT-999',
         'setor_id' => $local->id_local,

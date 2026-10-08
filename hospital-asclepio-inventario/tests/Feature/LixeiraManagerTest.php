@@ -4,10 +4,14 @@ use App\Models\Equipamento;
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertDatabaseMissing;
+
 test('admin cannot access lixeira page', function () {
     $admin = User::factory()->create(['role' => 'administrador']);
 
-    $this->actingAs($admin)
+    actingAs($admin)
         ->get('/lixeira')
         ->assertStatus(403);
 });
@@ -15,7 +19,7 @@ test('admin cannot access lixeira page', function () {
 test('diretor can access lixeira page', function () {
     $diretor = User::factory()->create(['role' => 'diretor']);
 
-    $this->actingAs($diretor)
+    actingAs($diretor)
         ->get('/lixeira')
         ->assertStatus(200);
 });
@@ -29,7 +33,7 @@ test('diretor can restore soft-deleted items', function () {
         ->test('lixeira-manager')
         ->call('restaurar', Equipamento::class, $equipamento->id);
 
-    $this->assertDatabaseHas('equipamentos', [
+    assertDatabaseHas('equipamentos', [
         'id' => $equipamento->id,
         'deleted_at' => null,
     ]);
@@ -55,7 +59,7 @@ test('force delete requires exact CONFIRMAR string', function () {
         ->set('confirmInput', 'CONFIRMAR') // exact uppercase succeeds
         ->call('expurgarDefinitivamente');
 
-    $this->assertDatabaseMissing('equipamentos', [
+    assertDatabaseMissing('equipamentos', [
         'id' => $equipamento->id,
     ]);
 });

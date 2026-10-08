@@ -18,6 +18,10 @@
             if (localStorage.getItem('sidebarCollapsed') === 'true') {
                 document.documentElement.classList.add('sidebar-collapsed');
             }
+
+            if (/android|iphone|ipad|ipod/i.test(navigator.userAgent) || window.matchMedia('(max-width: 768px)').matches) {
+                document.documentElement.classList.add('is-mobile-device');
+            }
         })();
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -53,7 +57,7 @@
     </style>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'TI Hospitalar' }} — Hospitais Asclépio</title>
     <link rel="icon" type="image/png" href="{{ asset('img/icon-hospitais-asclepio.png') }}?v=2">
@@ -146,7 +150,8 @@
                    'md:w-20': sidebarCollapsed,
                    'md:w-72': !sidebarCollapsed
                }"
-               class="-translate-x-full fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between transition-[width,transform] duration-300 ease-in-out md:sticky md:top-0 md:h-screen md:shrink-0 md:translate-x-0 overflow-y-auto">
+               class="-translate-x-full fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between transition-[width,transform] duration-300 ease-in-out md:sticky md:top-0 md:h-screen md:shrink-0 md:translate-x-0 overflow-y-auto"
+               style="padding-top: var(--safe-top, 0px);">
             <div>
                 <!-- Brand Header -->
                 <div class="h-20 px-4 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80">
@@ -282,7 +287,7 @@
 
             <!-- Footer Sidebar: Botão de Sair -->
             @auth
-            <div class="p-3 border-t border-slate-200/80 dark:border-slate-800/80">
+            <div class="p-3 border-t border-slate-200/80 dark:border-slate-800/80" style="padding-bottom: calc(0.75rem + var(--safe-bottom, 0px));">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
@@ -302,7 +307,8 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-w-0">
             <!-- Top Navbar -->
-            <header class="h-20 bg-white/80 dark:bg-slate-900/60 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30 px-4 sm:px-8 flex items-center justify-between">
+            <header class="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30 px-4 sm:px-8 flex items-center justify-between"
+                    style="padding-top: var(--safe-top, 0px); min-height: calc(5rem + var(--safe-top, 0px));">
                 <div class="flex items-center gap-4">
                     <button @click="sidebarOpen = true" class="md:hidden text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 p-2 rounded-lg bg-slate-100 dark:bg-slate-800">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -393,7 +399,7 @@
             </header>
 
             <!-- Main Page Content -->
-            <main class="flex-1 p-4 sm:p-8 overflow-y-auto">
+            <main class="flex-1 p-4 sm:p-8 overflow-y-auto" style="padding-bottom: calc(3rem + var(--safe-bottom, 0px));">
                 <div class="max-w-7xl mx-auto w-full">
                     {{ $slot }}
                 </div>

@@ -15,7 +15,7 @@ return [
 
     'name' => env('APP_NAME', 'Hospital Asclepio'),
 
-    'version' => env('APP_VERSION', 'v1.0.3'),
+    'version' => env('APP_VERSION', 'v1.0.4'),
 
     /*
     |--------------------------------------------------------------------------
