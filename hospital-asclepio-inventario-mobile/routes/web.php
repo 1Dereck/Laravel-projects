@@ -45,10 +45,18 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:diretor,administrador,coordenador,usuario')->group(function () {
         Route::get('/relatorios', BuscaSetor::class)->name('relatorios.index');
         Route::get('/quantidades', LevantamentoQuantidades::class)->name('quantidades.index');
-        Route::get('/quantidades/secretaria/{secretaria}/pdf', [PdfController::class, 'gerarRelatorioQuantidadesSecretaria'])->name('quantidades.secretaria.pdf');
-        Route::get('/quantidades/local/{setor}/pdf', [PdfController::class, 'gerarRelatorioQuantidadesLocal'])->name('quantidades.local.pdf');
-        Route::get('/relatorios/setor/{setor}/pdf', [PdfController::class, 'gerarRelatorioSetor'])->name('relatorios.pdf');
-        Route::get('/relatorios/secretaria/{secretaria}/pdf', [PdfController::class, 'gerarRelatorioSecretaria'])->name('relatorios.secretaria.pdf');
+        Route::get('/quantidades/secretaria/{secretaria}/pdf', [PdfController::class, 'gerarRelatorioQuantidadesSecretaria'])
+            ->name('quantidades.secretaria.pdf')
+            ->whereNumber('secretaria');
+        Route::get('/quantidades/local/{setor}/pdf', [PdfController::class, 'gerarRelatorioQuantidadesLocal'])
+            ->name('quantidades.local.pdf')
+            ->whereNumber('setor');
+        Route::get('/relatorios/setor/{setor}/pdf', [PdfController::class, 'gerarRelatorioSetor'])
+            ->name('relatorios.pdf')
+            ->whereNumber('setor');
+        Route::get('/relatorios/secretaria/{secretaria}/pdf', [PdfController::class, 'gerarRelatorioSecretaria'])
+            ->name('relatorios.secretaria.pdf')
+            ->whereNumber('secretaria');
     });
 
     // Director, Admin & Coordenador User Management
